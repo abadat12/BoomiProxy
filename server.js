@@ -6,15 +6,16 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express();
 
 // Target URL of the site you want to proxy
-const targetUrl = 'https://www.google.com/'; // Replace with the actual URL
+const targetUrl =
+  'https://rks23r1test.eastus.cloudapp.azure.com/main/ifsapplications/web/page/ManualSupplierInvoice/Form;$filter=InvoiceId%20eq%20105/'; // Replace with the actual URL
 
 // Proxy middleware to forward requests
 app.use(
-  '/google',
+  '/ifs',
   createProxyMiddleware({
     target: targetUrl,
     changeOrigin: true, // Ensures the Host header matches the target URL
-    pathRewrite: { '^/google': '' }, // Removes /google from the URL path
+    pathRewrite: { '^/ifs': '' }, // Removes /google from the URL path
 
     // Modify the response headers
     onProxyRes: function (proxyRes, req, res) {
