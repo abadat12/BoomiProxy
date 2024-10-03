@@ -32,10 +32,18 @@ app.use(
 
     // Error handling
     onError: function (err, req, res) {
-      console.error('Proxy error:', err);
+      console.error('Proxy error:', err.message);
       res
         .status(500)
-        .send('Something went wrong while trying to proxy the request.');
+        .send(
+          'Something went wrong while trying to proxy the request: ' +
+            err.message
+        );
+    },
+
+    // Log the request
+    onProxyReq: function (proxyReq, req, res) {
+      console.log(`Proxying request to: ${targetUrl}${req.url}`);
     },
   })
 );
