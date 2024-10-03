@@ -15,17 +15,7 @@ app.use(
   createProxyMiddleware({
     target: targetUrl,
     changeOrigin: true, // Ensures the Host header matches the target URL
-    pathRewrite: { '^/ifs': '' }, // Removes /google from the URL path
-
-    // Modify the response headers
-    onProxyRes: function (proxyRes, req, res) {
-      // Remove the X-Frame-Options header
-      delete proxyRes.headers['x-frame-options'];
-      // Add CORS headers
-      res.header('Access-Control-Allow-Origin', '*'); // Allow all origins
-      res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS'); // Allow specific methods
-      res.header('Access-Control-Allow-Headers', 'Content-Type'); // Allow specific headers
-    },
+    pathRewrite: { '^/ifs': '' }, // Removes /ifs from the URL path
   })
 );
 
