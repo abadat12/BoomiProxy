@@ -16,6 +16,27 @@ app.use(
     target: targetUrl,
     changeOrigin: true, // Ensures the Host header matches the target URL
     pathRewrite: { '^/ifs': '' }, // Removes /ifs from the URL path
+
+    // Modify the response headers
+    onProxyRes: function (proxyRes, req, res) {
+      // Remove unwanted headers
+      delete proxyRes.headers['x-frame-options'];
+      delete proxyRes.headers['content-security-policy'];
+      delete proxyRes.headers['set-cookie'];
+
+      // Allow all origins
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS');
+      res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    },
+
+    // Error handling
+    onError: function (err, req, res) {
+      console.error('Proxy error:', err);
+      res
+        .status(500)
+        .send('Something went wrong while trying to proxy the request.');
+    },
   })
 );
 
